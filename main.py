@@ -119,8 +119,8 @@ def main():
                 continue
 
             print("Sort recommendations by:")
-            print(" 1) Rating (default)")
-            print(" 2) Release date (newest first)")
+            print("  1) Rating (default)")
+            print("  2) Release date (newest first)")
             strat_choice = input("Enter 1 or 2: ").strip()
 
             strategy = "rating"
@@ -129,7 +129,32 @@ def main():
 
             recs = service.recommend(title, strategy)
             print(f"\nRecommendations for '{title}':")
-            display_movies(recs, show_index=False)
+            display_movies(recs, show_index=True)
+
+            if not recs:
+                print("No recommendations available. Returning to main menu.")
+                continue
+
+            try:
+                selection = int(input(
+                    "\nEnter the number of the movie to save as favorite,\n"
+                    "or enter 0 to return to the main menu: "
+                ).strip())
+
+                if selection == 0:
+                    print("Returning to main menu.")
+                    continue
+
+                if 1 <= selection <= len(recs):
+                    movie = recs[selection - 1]
+                    service.save_favorite(movie)
+                    print(f"✅ Saved '{movie.title}' to favorites.")
+                else:
+                    print("Invalid selection. No movie saved.")
+
+            except ValueError:
+                print("Invalid input. Please enter a number next time.")
+
 
         elif choice == "0":
             print("\nThank you for using FilmScope. Goodbye! 👋")
