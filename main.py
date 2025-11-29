@@ -107,7 +107,7 @@ def main():
                     print("Invalid selection. No movie removed.")
                     continue
                 key_to_remove = keys[selection - 1]
-                service.db.remove_favorite(key_to_remove)  # or expose a wrapper method in MovieService
+                service.db.remove_favorite(key_to_remove)
                 print("Favorite removed successfully.")
             except ValueError:
                 print("Invalid input. Please enter a number next time.")
